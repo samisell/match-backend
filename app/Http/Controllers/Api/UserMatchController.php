@@ -25,6 +25,21 @@ class UserMatchController extends Controller
 
         $userMatch = UserMatch::create($request->all());
 
+        $user = \App\Models\User::find($request->user_id);
+        $matchedUser = \App\Models\User::find($request->matched_user_id);
+
+        if ($user && $matchedUser) {
+            $user->notify(new \App\Notifications\DynamicNotification('user_match', [
+                'matched_user_name' => $matchedUser->name,
+                'match_link' => config('app.url') . '/matches/' . $userMatch->id,
+            ]));
+            
+            $matchedUser->notify(new \App\Notifications\DynamicNotification('user_match', [
+                'matched_user_name' => $user->name,
+                'match_link' => config('app.url') . '/matches/' . $userMatch->id,
+            ]));
+        }
+
         return $userMatch;
     }
 

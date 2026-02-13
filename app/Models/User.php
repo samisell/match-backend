@@ -30,6 +30,8 @@ class User extends Authenticatable
         'interests',
         'is_admin', // Make is_admin fillable
         'matched', // Make matched fillable
+        'otp',
+        'otp_expires_at',
     ];
 
     /**
@@ -59,5 +61,35 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'interests' => 'array',
+        'otp_expires_at' => 'datetime',
     ];
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $url = config('app.url') . '/password-reset?token=' . $token . '&email=' . $this->email;
+        
+        $this->notify(new \App\Notifications\DynamicNotification('forgot_password', [
+            'reset_link' => $url,
+        ]));
+    }
+
+    /**
+     * Check if the user's profile is complete.
+     *
+     * @return bool
+     */
+    public function isProfileComplete()
+    {
+        return !empty($this->age) && 
+               !empty($this->location) && 
+               !empty($this->occupation) && 
+               !empty($this->interests) &&
+               count($this->interests) > 0;
+    }
 }

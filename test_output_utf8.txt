@@ -1,0 +1,25 @@
+﻿PHPUnit 10.5.63 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.1.2
+Configuration: C:\Users\veni\Documents\match-fullstack\match-backend\phpunit.xml
+
+E                                                                   1 / 1 (100%)
+
+Time: 00:00.629, Memory: 38.00 MB
+
+There was 1 error:
+
+1) Tests\Feature\ProfileReminderTest::test_it_sends_reminders_to_incomplete_profiles
+Error: Cannot access protected property App\Notifications\DynamicNotification::$templateName
+
+C:\Users\veni\Documents\match-fullstack\match-backend\tests\Feature\ProfileReminderTest.php:59
+C:\Users\veni\Documents\match-fullstack\match-backend\vendor\laravel\framework\src\Illuminate\Support\Testing\Fakes\NotificationFake.php:251
+C:\Users\veni\Documents\match-fullstack\match-backend\vendor\laravel\framework\src\Illuminate\Collections\Arr.php:911
+C:\Users\veni\Documents\match-fullstack\match-backend\vendor\laravel\framework\src\Illuminate\Collections\Collection.php:388
+C:\Users\veni\Documents\match-fullstack\match-backend\vendor\laravel\framework\src\Illuminate\Support\Testing\Fakes\NotificationFake.php:252
+C:\Users\veni\Documents\match-fullstack\match-backend\vendor\laravel\framework\src\Illuminate\Support\Testing\Fakes\NotificationFake.php:90
+C:\Users\veni\Documents\match-fullstack\match-backend\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php:355
+C:\Users\veni\Documents\match-fullstack\match-backend\tests\Feature\ProfileReminderTest.php:60
+
+ERRORS!
+Tests: 1, Assertions: 2, Errors: 1.

@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\MessageController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -34,4 +35,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users.preferences', UserPreferenceController::class)->shallow();
     Route::apiResource('users.matches', UserMatchController::class)->shallow();
     Route::apiResource('users.messages', MessageController::class)->shallow();
+
+    Route::middleware('is_admin')->prefix('admin')->group(function () {
+        Route::apiResource('email-templates', \App\Http\Controllers\Api\Admin\EmailTemplateController::class);
+    });
 });

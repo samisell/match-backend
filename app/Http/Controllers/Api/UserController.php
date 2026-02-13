@@ -35,11 +35,17 @@ class UserController extends Controller
 
         $user->update($request->all());
 
+        $user->notify(new \App\Notifications\DynamicNotification('user_updated', [
+            'user_profile_link' => config('app.url') . '/dashboard/profile',
+        ]));
+
         return $user;
     }
 
     public function destroy(User $user)
     {
+        $user->notify(new \App\Notifications\DynamicNotification('user_deleted', []));
+        
         $user->delete();
 
         return response()->json(null, 204);

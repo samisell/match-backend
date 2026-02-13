@@ -1,0 +1,32 @@
+﻿
+   FAIL  Tests\Feature\ApiLoggingTest
+  Γ£ô it logs apΓÇª 0.63s  
+  Γ¿» it masks sΓÇª 0.23s  
+  Γ¿» it logs erΓÇª 0.15s  
+  ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ  
+   FAILED  Tests\Feature\ApiLoggingTest > it masks sensitive data in logs  BadMethodCallException   
+  Received Mockery_2_Illuminate_Log_LogManager::error(), but no expectations were specified
+
+  at vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\Handler.php:317
+    313Γûò 
+    314Γûò         $context = $this->buildExceptionContext($e);
+    315Γûò 
+    316Γûò         method_exists($logger, $level)
+  Γ₧£ 317Γûò             ? $logger->{$level}($e->getMessage(), $context)
+    318Γûò             : $logger->log($level, $e->getMessage(), $context);
+    319Γûò     }
+    320Γûò 
+    321Γûò     /**
+
+  1   vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\Handler.php:317
+  2   vendor\laravel\framework\src\Illuminate\Foundation\Exceptions\Handler.php:278
+
+  ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ  
+   FAILED  Tests\Feature\ApiLoggingTest > it logs error responses  InvalidCountException   
+  Method info('API Interaction', <Closure===true>) from Mockery_2_Illuminate_Log_LogManager should be called
+ exactly 1 times but called 0 times.
+
+
+  Tests:    2 failed, 1 passed (3 assertions)
+  Duration: 1.24s
+
