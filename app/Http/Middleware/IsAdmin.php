@@ -21,6 +21,6 @@ class IsAdmin
             return $next($request);
         }
 
-        return redirect('/');
+        return response()->json(['message' => 'Unauthorized. Admin access only.'], 403);
     }
 }

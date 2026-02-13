@@ -1,0 +1,26 @@
+﻿
+   FAIL  Tests\Feature\ApiLoggingTest
+  Γ£ô it logs apΓÇª 4.19s  
+  Γ¿» it masks sΓÇª 1.21s  
+  Γ£ô it logs erΓÇª 0.08s  
+  ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ  
+   FAILED  Tests\FeΓÇª   
+  Failed asserting that 422 matches expected 401.
+
+  at tests\Feature\ApiLoggingTest.php:42
+     38Γûò         ]);
+     39Γûò 
+     40Γûò         $this->assertEquals(1, ActivityLog::count());
+     41Γûò         $log = ActivityLog::first();
+  Γ₧£  42Γûò         $this->assertEquals(401, $log->status);
+     43Γûò         
+     44Γûò         $spy->shouldHaveReceived('info', function ($message, $data) {
+     45Γûò             return $data['request_body']['password'] === '********' &&
+     46Γûò                    $data['request_body']['otp'] === '********';
+
+  1   tests\Feature\ApiLoggingTest.php:42
+
+
+  Tests:    1 failed, 2 passed (7 assertions)
+  Duration: 7.90s
+

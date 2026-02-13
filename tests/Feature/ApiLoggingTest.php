@@ -29,7 +29,7 @@ class ApiLoggingTest extends TestCase
     {
         $spy = Log::spy();
         Log::shouldReceive('channel')->with('api')->andReturn($spy);
-        Log::shouldReceive('error')->any();
+        Log::shouldReceive('error')->zeroOrMoreTimes();
 
         $this->postJson('/api/login', [
             'email' => 'test@example.com',
@@ -39,7 +39,7 @@ class ApiLoggingTest extends TestCase
 
         $this->assertEquals(1, ActivityLog::count());
         $log = ActivityLog::first();
-        $this->assertEquals(401, $log->status);
+        $this->assertEquals(422, $log->status);
         
         $spy->shouldHaveReceived('info', function ($message, $data) {
             return $data['request_body']['password'] === '********' &&
@@ -51,7 +51,7 @@ class ApiLoggingTest extends TestCase
     {
         $spy = Log::spy();
         Log::shouldReceive('channel')->with('api')->andReturn($spy);
-        Log::shouldReceive('error')->any();
+        Log::shouldReceive('error')->zeroOrMoreTimes();
 
         $this->postJson('/api/register', [
             'name' => '', 

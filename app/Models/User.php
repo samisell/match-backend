@@ -61,6 +61,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'interests' => 'array',
+        'is_admin' => 'boolean',
+        'matched' => 'boolean',
         'otp_expires_at' => 'datetime',
     ];
 

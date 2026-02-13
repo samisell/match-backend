@@ -1,0 +1,22 @@
+﻿
+   FAIL  Tests\Feature\ApiLoggingTest
+  Γ¿» it logs eΓÇª 14.52s  
+  ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ  
+   FAILED  TΓÇª  Error   
+  Call to undefined method Mockery\Expectation::any()
+
+  at tests\Feature\ApiLoggingTest.php:54
+     50Γûò     public function test_it_logs_error_responses()
+     51Γûò     {
+     52Γûò         $spy = Log::spy();
+     53Γûò         Log::shouldReceive('channel')->with('api')->andReturn($spy);
+  Γ₧£  54Γûò         Log::shouldReceive('error')->any();
+     55Γûò 
+     56Γûò         $this->postJson('/api/register', [
+     57Γûò             'name' => '', 
+     58Γûò         ]);
+
+
+  Tests:    1 failed (0 assertions)
+  Duration: 22.56s
+

@@ -16,7 +16,6 @@ class ApiLogger
      */
     public function handle(Request $request, Closure $next): Response
     {
-        error_log("ApiLogger hit: " . $request->fullUrl());
         if (!$request->is('api/*')) {
             return $next($request);
         }
