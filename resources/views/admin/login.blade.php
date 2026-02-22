@@ -31,5 +31,52 @@
             </form>
         </div>
     </div>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); // Stop the default form submission
+
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const token = document.querySelector('input[name="_token"]').value;
+
+                console.log('--- Admin Login Attempt ---');
+                console.log('Email:', email);
+                console.log('Password:', password);
+                console.log('CSRF Token:', token);
+
+                fetch('{{ route('admin.login') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': token,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                })
+                .then(response => {
+                    console.log('--- Server Response ---');
+                    console.log('Status:', response.status);
+                    console.log('Status Text:', response.statusText);
+                    response.json().then(data => {
+                        console.log('Response Body:', data);
+                        if (response.ok && data.redirect) {
+                            console.log('Redirecting to:', data.redirect);
+                            window.location.href = data.redirect;
+                        } else {
+                            console.error('Login failed. Server response:', data);
+                        }
+                    }).catch(err => {
+                        console.error('Error parsing JSON response:', err);
+                        response.text().then(text => console.log('Non-JSON Response Body:', text));
+                    });
+                })
+                .catch(error => {
+                    console.error('Fetch Error:', error);
+                });
+            });
+        });
+    </script>
 </body>
 </html>

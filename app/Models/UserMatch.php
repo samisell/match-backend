@@ -16,4 +16,14 @@ class UserMatch extends Model
         'matchmaker_note',
         'matched_at',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function matchedUser()
+    {
+        return $this->belongsTo(User::class, 'matched_user_id');
+    }
 }

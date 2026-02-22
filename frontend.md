@@ -56,6 +56,7 @@ The API uses token-based authentication (Laravel Sanctum). To access protected r
             "email": "john.doe@example.com",
             "is_admin": false,
             "email_verified_at": null,
+            "is_verified": false,
             "created_at": "2026-02-10T01:00:00.000000Z",
             "updated_at": "2026-02-10T01:00:00.000000Z"
         },
@@ -65,7 +66,7 @@ The API uses token-based authentication (Laravel Sanctum). To access protected r
 
 ### 2. Verify OTP
 
-*   **Endpoint:** `POST /verify-otp`
+*   **Endpoint:** `POST /verify-otp` (or `POST /verify-email`)
 *   **Headers:**
     *   `Accept: application/json`
 *   **Body (raw, JSON):**
@@ -82,6 +83,27 @@ The API uses token-based authentication (Laravel Sanctum). To access protected r
     ```json
     {
         "message": "Email verified successfully."
+    }
+    ```
+
+### 2.1. Resend OTP
+
+*   **Endpoint:** `POST /verify-email/resend`
+*   **Headers:**
+    *   `Accept: application/json`
+*   **Body (raw, JSON):**
+
+    ```json
+    {
+        "email": "john.doe@example.com"
+    }
+    ```
+
+*   **Successful Response (200 OK):**
+
+    ```json
+    {
+        "message": "A new OTP has been sent to your email address."
     }
     ```
 
@@ -123,6 +145,7 @@ The API uses token-based authentication (Laravel Sanctum). To access protected r
             "email": "john.doe@example.com",
             "is_admin": false,
             "email_verified_at": "2026-02-10T01:05:00.000000Z",
+            "is_verified": true,
             // ... other user fields
         }
     }

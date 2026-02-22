@@ -28,10 +28,23 @@ class User extends Authenticatable
         'quote',
         'profile_summary',
         'interests',
-        'is_admin', // Make is_admin fillable
-        'matched', // Make matched fillable
+        'is_admin',
+        'matched',
         'otp',
         'otp_expires_at',
+        'email_verified_at',
+        'phone',
+        'height',
+        'body_type',
+        'eye_color',
+        'hair_color',
+        'smoking',
+        'drinking',
+        'drugs',
+        'dietary_preferences',
+        'exercise_frequency',
+        'pet_ownership',
+        'religion',
     ];
 
     /**
@@ -53,6 +66,23 @@ class User extends Authenticatable
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['is_verified'];
+
+    /**
+     * Get the user's verification status.
+     *
+     * @return bool
+     */
+    public function getIsVerifiedAttribute()
+    {
+        return $this->email_verified_at !== null;
+    }
+
+    /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
@@ -62,9 +92,13 @@ class User extends Authenticatable
         'password' => 'hashed',
         'interests' => 'array',
         'is_admin' => 'boolean',
-        'matched' => 'boolean',
-        'otp_expires_at' => 'datetime',
+        'is_verified' => 'boolean',
     ];
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
 
     /**
      * Send the password reset notification.
@@ -74,7 +108,7 @@ class User extends Authenticatable
      */
     public function sendPasswordResetNotification($token)
     {
-        $url = config('app.url') . '/password-reset?token=' . $token . '&email=' . $this->email;
+        $url = config('app.frontend_url') . '/password-reset?token=' . $token . '&email=' . $this->email;
         
         $this->notify(new \App\Notifications\DynamicNotification('forgot_password', [
             'reset_link' => $url,

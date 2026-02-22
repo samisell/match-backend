@@ -8,9 +8,22 @@ use Illuminate\Http\Request;
 
 class UserMatchController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return UserMatch::all();
+        $userId = $request->user()->id;
+        $matches = UserMatch::where('user_id', $userId)
+            ->orWhere('matched_user_id', $userId)
+            ->with(['user.photos', 'matchedUser.photos'])
+            ->get();
+
+        // Transform the matches so "matched_user" is always the OTHER person
+        return $matches->map(function ($match) use ($userId) {
+            $matchedUser = $match->user_id === $userId ? $match->matchedUser : $match->user;
+            
+            // Add a temporary property for the frontend
+            $match->matched_user = $matchedUser;
+            return $match;
+        });
     }
 
     public function store(Request $request)

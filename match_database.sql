@@ -19,24 +19,6 @@ CREATE TABLE `failed_jobs` (
 
 -- Dumping data for table `failed_jobs` --
 
--- Table structure for table `messages` --
-DROP TABLE IF EXISTS `messages`;
-CREATE TABLE `messages` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) unsigned NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `is_read` tinyint(1) NOT NULL DEFAULT 0,
-  `sent_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `messages_user_id_foreign` (`user_id`),
-  CONSTRAINT `messages_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Dumping data for table `messages` --
-
 -- Table structure for table `migrations` --
 DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE `migrations` (
@@ -91,6 +73,64 @@ CREATE TABLE `personal_access_tokens` (
 
 -- Dumping data for table `personal_access_tokens` --
 
+-- Table structure for table `tags` --
+DROP TABLE IF EXISTS `tags`;
+CREATE TABLE `tags` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tags_name_unique` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table `tags` --
+
+-- Table structure for table `users` --
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `age` int(11) DEFAULT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `occupation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `education` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `quote` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `profile_summary` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `interests` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`interests`)),
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `is_admin` tinyint(1) NOT NULL DEFAULT 0,
+  `matched` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table `users` --
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `age`, `location`, `occupation`, `education`, `quote`, `profile_summary`, `interests`, `remember_token`, `created_at`, `updated_at`, `is_admin`, `matched`) VALUES ('1', 'Admin', 'info@venihost.com.ng', NULL, '$2y$12$l1RU.nf6XSAXUq6/uQ3WvO7Rxb0XDMS8VVy.Ch4yE8eJkykkJoNNe', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-10 01:25:10', '2026-02-10 01:25:10', '1', '0');
+
+-- Table structure for table `messages` --
+DROP TABLE IF EXISTS `messages`;
+CREATE TABLE `messages` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_read` tinyint(1) NOT NULL DEFAULT 0,
+  `sent_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `messages_user_id_foreign` (`user_id`),
+  CONSTRAINT `messages_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table `messages` --
+
 -- Table structure for table `taggables` --
 DROP TABLE IF EXISTS `taggables`;
 CREATE TABLE `taggables` (
@@ -105,19 +145,6 @@ CREATE TABLE `taggables` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table `taggables` --
-
--- Table structure for table `tags` --
-DROP TABLE IF EXISTS `tags`;
-CREATE TABLE `tags` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `tags_name_unique` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Dumping data for table `tags` --
 
 -- Table structure for table `user_matches` --
 DROP TABLE IF EXISTS `user_matches`;
@@ -173,32 +200,5 @@ CREATE TABLE `user_preferences` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table `user_preferences` --
-
--- Table structure for table `users` --
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `age` int(11) DEFAULT NULL,
-  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `occupation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `education` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `quote` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `profile_summary` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `interests` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`interests`)),
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `is_admin` tinyint(1) NOT NULL DEFAULT 0,
-  `matched` tinyint(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Dumping data for table `users` --
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `age`, `location`, `occupation`, `education`, `quote`, `profile_summary`, `interests`, `remember_token`, `created_at`, `updated_at`, `is_admin`, `matched`) VALUES ('1', 'Admin', 'info@venihost.com.ng', NULL, '$2y$12$l1RU.nf6XSAXUq6/uQ3WvO7Rxb0XDMS8VVy.Ch4yE8eJkykkJoNNe', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-10 01:25:10', '2026-02-10 01:25:10', '1', '0');
 
 SET FOREIGN_KEY_CHECKS=1;

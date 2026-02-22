@@ -8,22 +8,29 @@ use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Message::all();
+        $userId = $request->user()->id;
+        return Message::where('sender_id', $userId)
+            ->orWhere('receiver_id', $userId)
+            ->with(['sender', 'receiver'])
+            ->orderBy('created_at', 'asc')
+            ->get();
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'title' => 'required|string|max:255',
+            'receiver_id' => 'required|exists:users,id',
             'content' => 'required|string',
-            'is_read' => 'boolean',
-            'sent_at' => 'date',
         ]);
 
-        $message = Message::create($request->all());
+        $message = Message::create([
+            'sender_id' => $request->user()->id,
+            'receiver_id' => $request->receiver_id,
+            'content' => $request->content,
+            'sent_at' => now(),
+        ]);
 
         return $message;
     }

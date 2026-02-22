@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\UserPhotoController;
 use App\Http\Controllers\Api\UserPreferenceController;
 use App\Http\Controllers\Api\UserMatchController;
 use App\Http\Controllers\Api\MessageController;
+use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\ArtisanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +25,10 @@ use App\Http\Controllers\Api\MessageController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
+Route::post('/verify-email', [AuthController::class, 'verifyOtp']);
+Route::post('/verify-email/resend', [AuthController::class, 'resendOtp']);
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -30,13 +36,24 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
+    Route::apiResource('matches', UserMatchController::class);
+    Route::apiResource('messages', MessageController::class);
+    Route::apiResource('photos', UserPhotoController::class);
+
     Route::apiResource('users', UserController::class);
     Route::apiResource('users.photos', UserPhotoController::class)->shallow();
     Route::apiResource('users.preferences', UserPreferenceController::class)->shallow();
     Route::apiResource('users.matches', UserMatchController::class)->shallow();
     Route::apiResource('users.messages', MessageController::class)->shallow();
+    Route::apiResource('preferences', UserPreferenceController::class);
+
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::post('/notifications/{notification}/read', [NotificationController::class, 'markAsRead']);
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
+    Route::delete('/notifications/{notification}', [NotificationController::class, 'destroy']);
 
     Route::middleware('is_admin')->prefix('admin')->group(function () {
         Route::apiResource('email-templates', \App\Http\Controllers\Api\Admin\EmailTemplateController::class);
+        Route::post('/artisan', [ArtisanController::class, 'handle']);
     });
 });

@@ -15,4 +15,12 @@ class UserPhoto extends Model
         'caption',
         'is_primary',
     ];
+
+    protected $appends = ['url'];
+
+    public function getUrlAttribute()
+    {
+        $path = \Illuminate\Support\Facades\Storage::url($this->image_url);
+        return str_starts_with($path, 'http') ? $path : config('app.url') . $path;
+    }
 }

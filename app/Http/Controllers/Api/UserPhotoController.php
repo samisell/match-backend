@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Storage;
 
 class UserPhotoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return UserPhoto::all();
+        return UserPhoto::where('user_id', $request->user()->id)->get();
     }
 
     public function store(Request $request)

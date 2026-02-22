@@ -21,6 +21,15 @@ class UserPreferenceController extends Controller
             'age_max' => 'required|integer',
             'location_radius_km' => 'required|integer',
             'desired_interests' => 'array',
+            'gender_preference' => 'nullable|string|max:50',
+            'height_min' => 'nullable|string|max:20',
+            'height_max' => 'nullable|string|max:20',
+            'preferred_body_types' => 'array',
+            'smoking_preference' => 'nullable|string|max:50',
+            'drinking_preference' => 'nullable|string|max:50',
+            'drugs_preference' => 'nullable|string|max:50',
+            'religion_preference' => 'nullable|string|max:100',
+            'education_level_preference' => 'nullable|string|max:255',
         ]);
 
         $userPreference = UserPreference::create($request->all());
@@ -40,6 +49,15 @@ class UserPreferenceController extends Controller
             'age_max' => 'integer',
             'location_radius_km' => 'integer',
             'desired_interests' => 'array',
+            'gender_preference' => 'nullable|string|max:50',
+            'height_min' => 'nullable|string|max:20',
+            'height_max' => 'nullable|string|max:20',
+            'preferred_body_types' => 'array',
+            'smoking_preference' => 'nullable|string|max:50',
+            'drinking_preference' => 'nullable|string|max:50',
+            'drugs_preference' => 'nullable|string|max:50',
+            'religion_preference' => 'nullable|string|max:100',
+            'education_level_preference' => 'nullable|string|max:255',
         ]);
 
         $preference->update($request->all());

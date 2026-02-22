@@ -31,6 +31,18 @@ class UserController extends Controller
             'quote' => 'string',
             'profile_summary' => 'string',
             'interests' => 'array',
+            'phone' => 'nullable|string|max:20',
+            'height' => 'nullable|string|max:20',
+            'body_type' => 'nullable|string|max:50',
+            'eye_color' => 'nullable|string|max:50',
+            'hair_color' => 'nullable|string|max:50',
+            'smoking' => 'nullable|string|max:50',
+            'drinking' => 'nullable|string|max:50',
+            'drugs' => 'nullable|string|max:50',
+            'dietary_preferences' => 'nullable|string|max:255',
+            'exercise_frequency' => 'nullable|string|max:50',
+            'pet_ownership' => 'nullable|string|max:255',
+            'religion' => 'nullable|string|max:100',
         ]);
 
         $user->update($request->all());

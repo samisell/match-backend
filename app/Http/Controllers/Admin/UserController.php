@@ -12,6 +12,16 @@ use App\Helpers\EmailHelper; // Import the EmailHelper
 class UserController extends Controller
 {
     /**
+     * Display a listing of the users.
+     */
+    public function index()
+    {
+        $users = User::with('tags')->get();
+        $allTags = Tag::all()->pluck('name')->toArray();
+        return view('admin.users.index', compact('users', 'allTags'));
+    }
+
+    /**
      * Display the specified user.
      */
     public function show(User $user)

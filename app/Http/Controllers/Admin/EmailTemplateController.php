@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\EmailTemplate;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -15,7 +16,8 @@ class EmailTemplateController extends Controller
     public function index()
     {
         $templates = EmailTemplate::all();
-        return view('admin.email_templates.index', compact('templates'));
+        $allTags = Tag::all();
+        return view('admin.email_templates.index', compact('templates', 'allTags'));
     }
 
     /**
@@ -23,7 +25,8 @@ class EmailTemplateController extends Controller
      */
     public function create()
     {
-        return view('admin.email_templates.create');
+        $allTags = Tag::all();
+        return view('admin.email_templates.create', compact('allTags'));
     }
 
     /**

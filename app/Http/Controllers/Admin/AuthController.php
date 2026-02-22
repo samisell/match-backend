@@ -21,7 +21,14 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials) && Auth::user()->is_admin) {
+            if ($request->expectsJson()) {
+                return response()->json(['redirect' => route('admin.dashboard')]);
+            }
             return redirect()->route('admin.dashboard');
+        }
+
+        if ($request->expectsJson()) {
+            return response()->json(['error' => 'The provided credentials do not match our records or you are not an admin.'], 422);
         }
 
         return redirect()->back()->withErrors([
