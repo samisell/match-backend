@@ -60,7 +60,7 @@ class DynamicNotification extends Notification
 
         return (new MailMessage)
             ->subject($subject)
-            ->html($body);
+            ->view('emails.dynamic', ['body' => new \Illuminate\Support\HtmlString($body)]);
     }
 
     /**

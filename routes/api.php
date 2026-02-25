@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\UserPreferenceController;
 use App\Http\Controllers\Api\UserMatchController;
 use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\ArtisanController;
 
 /*
@@ -29,9 +30,11 @@ Route::post('/verify-email', [AuthController::class, 'verifyOtp']);
 Route::post('/verify-email/resend', [AuthController::class, 'resendOtp']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+Route::post('/contact', [ContactController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/change-password', [AuthController::class, 'changePassword']);
     Route::get('/user', function (Request $request) {
         return $request->user();
     });

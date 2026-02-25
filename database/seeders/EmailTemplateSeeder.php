@@ -118,5 +118,20 @@ class EmailTemplateSeeder extends Seeder
                 'type' => 'user'
             ]
         );
+
+        EmailTemplate::firstOrCreate(
+            ['name' => 'admin_contact_form'],
+            [
+                'subject' => 'New Contact Form Message: {{ contact_subject }}',
+                'body' => '<h1>New Contact Form Submission</h1>
+                           <p><strong>From:</strong> {{ sender_name }} ({{ sender_email }})</p>
+                           <p><strong>Subject:</strong> {{ contact_subject }}</p>
+                           <p><strong>Message:</strong></p>
+                           <p>{{ contact_message }}</p>
+                           <hr>
+                           <p>This email was sent from the contact form on {{ app_name }}.</p>',
+                'type' => 'admin'
+            ]
+        );
     }
 }
