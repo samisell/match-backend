@@ -1,0 +1,45 @@
+
+# Ignore Git related files
+.git
+.gitignore
+
+# Ignore vendor directories
+/vendor
+/node_modules
+
+# Ignore environment files
+.env
+.env.example
+
+# Ignore storage and cache directories (these should be managed by Docker volumes)
+/storage/*.log
+/storage/app/public/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/bootstrap/cache/*.php
+
+# Ignore development and testing related files
+phpunit.xml
+/tests
+
+# Ignore other specific files
+composer.phar
+backend.md
+frontend.md
+match_database.sql
+check_admins.php
+database_export_final.php
+test_error_output.txt
+test_error_output_utf8.txt
+test_fail_output.txt
+test_fail_output_utf8.txt
+test_final_output.txt
+test_final_output_utf8.txt
+test_log_output.txt
+test_log_output_utf8.txt
+test_output.txt
+test_output_utf8.txt
+
+# Ignore Coolify specific files
+.coolify
